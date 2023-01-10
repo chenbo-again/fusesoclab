@@ -1,0 +1,43 @@
+CAPI=2:
+
+name: test:demo:spinalhdlexample:0
+
+# filesets:
+#   MyTopLevel:
+#     depend: MyTopLevel
+
+generators:
+  MyTopLevel_gen:
+    interpreter: python3
+    command: spinalhdl.py
+
+generate:
+  MyTopLevel:
+    generator : MyTopLevel_gen
+    parameters:
+      buildtool: sbt # Optional, set to mill as default
+      # outputdir: . # Optional, set to "generated" as default
+      # env: # Optional environment variables
+        # BOARD: polarfireeval
+      extraargs: "" # Optional arguments to build tool
+      spinalhdlproject: example # Mandatory if using mill
+      copy_core: true # Build from fresh directory
+      output:
+        files:
+          - hw/gen/MyTopLevel.v: { file_type: verilogSource }
+
+targets:
+  default: &default
+    # filesets : [MyTopLevel]
+    generate : [MyTopLevel]
+  lint: 
+    <<: *default
+    default_tool : verilator
+    tools:
+      verilator:
+        mode : lint-only
+    toplevel : MyTopLevel
+  sim:
+    <<: *default
+    default_tool : icarus
+    toplevel : [MyTopLevel]
