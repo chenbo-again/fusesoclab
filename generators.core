@@ -25,6 +25,7 @@ generate:
       output:
         files:
           - hw/gen/MyTopLevel.v: { file_type: verilogSource }
+      width: 256
 
 targets:
   default: &default

@@ -1,17 +1,18 @@
-package projectname
+package fusespinal
 
 import spinal.core._
+import scopt.OptionParser
 
 // Hardware definition
-case class MyTopLevel() extends Component {
+case class MyTopLevel(width: Int) extends Component {
   val io = new Bundle {
     val cond0 = in  Bool()
     val cond1 = in  Bool()
     val flag  = out Bool()
-    val state = out UInt(8 bits)
+    val state = out UInt(width bits)
   }
 
-  val counter = Reg(UInt(8 bits)) init 0
+  val counter = Reg(UInt(width bits)) init 0
 
   when(io.cond0) {
     counter := counter + 1
@@ -22,7 +23,8 @@ case class MyTopLevel() extends Component {
 }
 
 object MyTopLevelVerilog extends App {
-  Config.spinal.generateVerilog(MyTopLevel())
+  val param = CmdConfig.parse(args)
+  Config.spinal.generateVerilog(MyTopLevel(param.width))
 }
 
 // object MyTopLevelVhdl extends App {

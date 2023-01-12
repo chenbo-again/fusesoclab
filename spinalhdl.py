@@ -14,6 +14,7 @@ class SpinalHDLGenerator(Generator):
         spinalhdlproject = self.config.get('spinalhdlproject', None)
         outputdir = self.config.get('outputdir', "generated")
         extraargs = self.config.get('extraargs', "")
+        width = self.config.get("width", 8)
         print(env, buildtool, spinalhdlproject, outputdir, extraargs)
         if buildtool == "mill" and spinalhdlproject == None:
             print("The parameter 'spinalhdlproject' must be defined.")
@@ -45,9 +46,10 @@ class SpinalHDLGenerator(Generator):
 
         # Define command and arguments based on build tool
         if buildtool == "mill":
-            args = '-i ' + spinalhdlproject + '.run --target-dir='+ outputdir + ' ' + extraargs
+            args = '-i ' + spinalhdlproject + '.run --target-dir='+ outputdir + ' ' + extraargs + "--width " + width
         elif buildtool == "sbt":
-            args = '"run --target-dir='+outputdir+ ' ' +extraargs+'"'
+            args = '"run'+ ' ' +extraargs + "--width " + str(width) +'"'
+            print(args, "*************************")
 
 
         args = shlex.split(args)
