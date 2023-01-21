@@ -19,6 +19,7 @@ fusesoc_libraries/
 .scalafmt.conf
 .mill-version
 build.sc
+*.v
 
 # Scala-IDE specific
 .scala_dependencies
