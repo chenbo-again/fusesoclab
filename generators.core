@@ -4,7 +4,10 @@ name: test:demo:spinalhdlexample:0
 
 # filesets:
 #   MyTopLevel:
-#     depend: MyTopLevel
+#     files:
+#       - hw/gen/MyTopLevel.v
+#     file_type : verilogSource
+
 
 generators:
   MyTopLevel_gen:
@@ -29,7 +32,6 @@ generate:
 
 targets:
   default: &default
-    # filesets : [MyTopLevel]
     generate : [MyTopLevel]
   lint: 
     <<: *default
@@ -42,3 +44,12 @@ targets:
     <<: *default
     default_tool : icarus
     toplevel : [MyTopLevel]
+  ac701:
+    <<: *default
+    default_tool: vivado
+    description : Xilinx Artix-7 FPGA AC701 Evaluation Kit
+    # filesets : [MyTopLevel]
+    tools:
+      vivado:
+        part : xc7a200t-fbg676-2
+    toplevel : MyTopLevel
