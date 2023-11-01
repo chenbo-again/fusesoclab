@@ -1,0 +1,31 @@
+CAPI=2:
+
+name: "::MyTopLevel:0"
+filesets:
+  rtl:
+    depend:
+    - "chenbosoft:utils:generators:0.0.0"
+generate:
+  MyTopLevel_gen:
+    generator: "spinalhdl"
+    parameters:
+      spinal_parameter:
+        width: 8
+      output:
+        files:
+        - MyTopLevel.v:
+            file_type: "verilogSource"
+      target_directory: "./generated"
+
+targets:
+  default:
+    generate: [MyTopLevel_gen]
+
+  lint:
+    default_tool : verilator
+    generate: [MyTopLevel_gen]
+    filesets: [rtl]
+    tools:
+      verilator:
+        mode : lint-only
+    toplevel : MyTopLevel
